@@ -1,10 +1,10 @@
 ### Stack
 
-This is a simple NodeJs project, using GraphQL, express, and mongoDB.
+This is a simple NodeJs project, using GraphQL, Express, and MongoDB.
 
 ### how to run
 
-1. Install mongoDB you can refer this link: https://treehouse.github.io/installation-guides/mac/mongo-mac.html
+1. Install MongoDB you can refer this link: https://treehouse.github.io/installation-guides/mac/mongo-mac.html
 
 ## Tips on mongo installation:
 
