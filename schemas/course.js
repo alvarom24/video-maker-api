@@ -33,6 +33,28 @@ const courseType = new GraphQLObjectType({
   },
 });
 
+const resultModel = Mongoose.model('result', {
+  courseId: String,
+  user: String,
+  videoUrl: String,
+  userAnswers: String,
+  correctAnswers: String,
+});
+
+const resultType = new GraphQLObjectType({
+  name: 'result',
+  fields: {
+    id: { type: GraphQLID },
+    courseId: { type: GraphQLString },
+    user: { type: GraphQLString },
+    videoUrl: { type: GraphQLString },
+    userAnswers: {
+      type: GraphQLString,
+    },
+    correctAnswers: { type: GraphQLString },
+  },
+});
+
 const courseSchema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'query',
@@ -65,6 +87,12 @@ const courseSchema = new GraphQLSchema({
           return courseModel.findOne({ title: args.title }).exec();
         },
       },
+      allResults: {
+        type: GraphQLList(resultType),
+        resolve: (root, args, context, info) => {
+          return resultModel.find().exec();
+        },
+      },
     },
   }),
   mutation: new GraphQLObjectType({
@@ -94,6 +122,22 @@ const courseSchema = new GraphQLSchema({
         },
         resolve: (root, args, context, info) => {
           return courseModel.findByIdAndRemove(args.id).exec();
+        },
+      },
+      insertResult: {
+        type: resultType,
+        args: {
+          courseId: { type: GraphQLNonNull(GraphQLString) },
+          user: { type: GraphQLNonNull(GraphQLString) },
+          videoUrl: { type: GraphQLNonNull(GraphQLString) },
+          userAnswers: {
+            type: GraphQLNonNull(GraphQLString),
+          },
+          correctAnswers: { type: GraphQLNonNull(GraphQLString) },
+        },
+        resolve: (root, args, context, info) => {
+          const result = new resultModel(args);
+          return result.save();
         },
       },
     },

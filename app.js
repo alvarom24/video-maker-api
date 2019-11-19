@@ -12,7 +12,6 @@ const {
   GraphQLBoolean,
 } = require('graphql');
 const courseSchema = require('./schemas/course');
-const resultSchema = require('./schemas/results');
 
 var app = Express();
 
@@ -23,15 +22,6 @@ app.use(
   cors(),
   ExpressGraphQl({
     schema: courseSchema,
-    graphiql: true,
-  })
-);
-
-app.use(
-  '/result',
-  cors(),
-  ExpressGraphQl({
-    schema: resultSchema,
     graphiql: true,
   })
 );
